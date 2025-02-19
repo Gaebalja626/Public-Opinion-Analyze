@@ -4,19 +4,22 @@ from datetime import datetime
 
 from crawler.news_crawler import NaverNewsCrawler
 from crawler.url_crawler import NaverNewsURLCrawler
+from db.news_db_manager import NewsDBManager
 
 
 class NaverNewsCrawlerProgram:
     def __init__(self):
         """네이버 뉴스 크롤러 프로그램 초기화"""
         self._setup_logging()
+        self.db_manager = NewsDBManager()  # DB 매니저 초기화
 
     def _setup_logging(self):
         """로깅 설정"""
         logging.basicConfig(
             filename=f'crawler_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log',
             level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s'
+            format='%(asctime)s - %(levelname)s - %(message)s',
+            encoding='utf-8'
         )
 
     def _print_header(self):
@@ -111,15 +114,39 @@ class NaverNewsCrawlerProgram:
 
         return results
 
+    def _save_crawling_results(self, article_data: list, comment_data: list) -> bool:
+        """
+        크롤링 결과를 데이터베이스에 저장
+        Args:
+            article_data: 기사 데이터
+            comment_data: 댓글 데이터
+        Returns:
+            저장 성공 여부
+        """
+        if not article_data:
+            return False
+
+        success = True
+        if not self.db_manager.save_article(article_data):
+            logging.error(f"기사 저장 실패: {article_data[0]}")
+            success = False
+
+        if comment_data and not self.db_manager.save_comments(article_data[0], comment_data):
+            logging.error(f"댓글 저장 실패: {article_data[0]}")
+            success = False
+
+        return success
+
     def _print_results(self, article_data: list, comment_data: list):
         """크롤링 결과 출력"""
+        # 기존 출력 로직
         if article_data:
             print("\n=== 기사 정보 ===")
             print(f"제목: {article_data[1]}")
             print(f"언론사: {article_data[2]}")
             print(f"기자: {article_data[3]}")
             print(f"날짜: {article_data[4]}")
-            print(f"내용: {article_data[5][:100]}...")  # 내용은 일부만 출력
+            print(f"내용: {article_data[5][:100]}...")
 
         if comment_data:
             print(f"\n=== 댓글 정보 ({len(comment_data)}개) ===")
@@ -132,6 +159,14 @@ class NaverNewsCrawlerProgram:
 
             if len(comment_data) > 3:
                 print(f"\n... 외 {len(comment_data) - 3}개의 댓글")
+
+        # 저장 결과 출력 추가
+        if self._save_crawling_results(article_data, comment_data):
+            print("\n데이터베이스 저장 완료")
+            print(f"총 저장된 기사 수: {self.db_manager.get_article_count()}")
+            print(f"총 저장된 댓글 수: {self.db_manager.get_comment_count()}")
+        else:
+            print("\n데이터베이스 저장 중 일부 오류가 발생했습니다.")
 
     def run(self):
         """프로그램 실행"""
@@ -161,8 +196,7 @@ class NaverNewsCrawlerProgram:
                 break
 
             print("\n계속하려면 Enter를 누르세요...")
-            input()
-
+            _ = input()
 
 if __name__ == '__main__':
     program = NaverNewsCrawlerProgram()
