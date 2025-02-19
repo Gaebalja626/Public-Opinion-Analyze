@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 import time
 from typing import List
 
-from crawler_utils import load_driver
+from .crawler_utils import load_driver
 
 
 class NaverNewsURLCrawler:

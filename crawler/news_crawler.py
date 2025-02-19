@@ -1,12 +1,11 @@
 import time
 from typing import List, Tuple
 
-import pandas as pd
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
-from crawler_utils import load_driver, get_html, get_soup
+from .crawler_utils import load_driver, get_soup
 
 
 class NaverNewsCrawler:
