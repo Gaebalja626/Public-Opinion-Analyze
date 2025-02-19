@@ -1,139 +1,134 @@
 import time
+from typing import List, Tuple
 
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
-from crawler_utils import load_driver, get_soup
-import use_db
-
-def parse_article(article_soup, article_id):
-    soup = article_soup
-
-    article_id = article_id
-    article_title = soup.select_one('div.media_end_head_title').text.strip()
-    journal = soup.select_one('a.media_end_head_top_logo').text.strip()
-    reporter_name = soup.select_one('em.media_end_head_journalist_name').text.strip()
-    datetime = soup.select_one('div.media_end_head_info_datestamp_bunch').text.strip() # TODO 입력 글자 지우고 시계열 연산 쉽게 변환
-    article_content = soup.select_one('div#newsct_article').text.strip()
+from crawler_utils import load_driver, get_html, get_soup
 
 
-    # TODO 리액션 정보 가져오는 게 안 돼요.
-    # TRY1 / 그냥 냅다 크롤링 -> 0으로만 나옴. 뉴스 소스코드(mnews/article/081에 있는 코드의 419번줄부터) 살펴보니까 0으로 채워져있음.
-    # 그냥 간단히 html코드에서 크롤링하는 거로는 안 되는 거 같음.
-    # 로딩 시간 기다려보기+셀레니움 동적 크롤링하는 거 직접 봐도 로딩된 상태였음에도 0으로 가져옴.
+class NaverNewsCrawler:
+    def __init__(self, url: str):
+        """
+        네이버 뉴스 크롤러 초기화
+        Args:
+            url: 크롤링할 뉴스 기사 URL
+        """
+        self.url = url
+        self.driver = load_driver()
+        self.article_soup = get_soup(url)
+        self.comment_html = None
 
-    # TRY2 / api 요청해보기 -> send_request()와 아래 코드가 해당 시도의 흔적..
-    # 아래는 리액션 라벨 이름만 응답이 오고 그래서 다른 api로 하면 될까 싶어서 크롬 dev tool로 네트워크 관찰해봤는데도
-    # 직접적으로 리액션 카운트 값을 보내주는 게 일단 나는 못 찾음......
-    # 직접 그 카운트를 변경시키면 관련된 내역이 뜨긴 하는데 이거는 보안 그런 게 잘 되어있어서 접근하기가 쉽지 않아보임.
+        # URL에서 article_id 추출
+        press_id, article_num = url.split('article/')[1].split('/')
+        self.article_id = f'{press_id}_{article_num}'
 
-    # reactions_json = send_request(
-    #     api_url="https://news.like.naver.com/v1/search/contents",
-    #     params={
-    #         "suppress_response_codes": "true",
-    #         "q": f"NEWS[{article_id}]",
-    #         "isDuplication": "false"
-    #     },
-    #     headers={
-    #         "referer": "https://n.news.naver.com/",
-    #         "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
-    #         "authority": "news.like.naver.com",
-    #         "accept": "*/*",
-    #         "accept-language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7"
-    #     }
-    # )
-    # print(reactions_json)
-    # reactions = json.loads(reactions_json['contents'][0]['contents'][0]['reactionCount'])
-
-    res_article = [article_id, article_title, journal, reporter_name, datetime, article_content,]
-
-    return res_article
-
-# def send_request(api_url, params, headers):
-#     import requests
-#
-#     response = requests.get(api_url, params=params, headers=headers)
-#     print(response)
-#     print('////////')
-#     json_data = response.json()
-#
-#     return json_data
-
-def get_comment_html(driver, url, wait_time=5, delay_time=0.5):
-    driver.get(url)
-    driver.implicitly_wait(wait_time)
-
-    while True:
+    def crawl(self) -> Tuple[List, List]:
+        """
+        뉴스 기사와 댓글을 크롤링
+        Returns:
+            기사 정보와 댓글 정보를 포함하는 튜플
+        """
         try:
-            more = driver.find_element(By.CLASS_NAME, 'u_cbox_btn_more')
-            more.click()
-            time.sleep(delay_time)
-        except:
-            break
+            # 댓글 HTML 가져오기
+            comment_url = self.url.replace('/article/', '/article/comment/')
+            self.comment_html = self._get_comment_html(comment_url)
 
-    reply_cnts = driver.find_elements(By.CLASS_NAME, 'u_cbox_reply_cnt')
-    actions = ActionChains(driver)
+            # 기사와 댓글 파싱
+            article_data = self._parse_article()
+            comment_data = self._parse_comment()
 
-    for reply_cnt in reply_cnts:
-        cnt_txt = reply_cnt.text.strip()
-        cnt = int(cnt_txt) if cnt_txt.isdigit() else 0
+            return article_data, comment_data
 
-        if cnt>0:
-            reply_btn = reply_cnt.find_element(By.XPATH, "./parent::*")
-            actions.move_to_element(reply_btn).click().perform()
-            time.sleep(delay_time)
+        finally:
+            self.driver.quit()
 
-    html = driver.page_source
+    def _parse_article(self) -> List:
+        """
+        뉴스 기사 내용을 파싱
+        Returns:
+            기사 정보를 담은 리스트
+        """
+        soup = self.article_soup
 
-    return html
+        article_title = soup.select_one('div.media_end_head_title').text.strip()
+        journal = soup.select_one('a.media_end_head_top_logo').text.strip()
+        reporter_name = soup.select_one('em.media_end_head_journalist_name').text.strip()
+        datetime = soup.select_one('div.media_end_head_info_datestamp_bunch').text.strip()
+        article_content = soup.select_one('div#newsct_article').text.strip()
 
+        return [
+            self.article_id,
+            article_title,
+            journal,
+            reporter_name,
+            datetime,
+            article_content
+        ]
 
-def parse_comment(html):
-    soup = BeautifulSoup(html, 'lxml')
+    def _get_comment_html(self, url: str, wait_time=5, delay_time=0.5) -> str:
+        """
+        댓글 HTML을 가져오기
+        Args:
+            url: 댓글 페이지 URL
+            wait_time: 페이지 로딩 대기 시간
+            delay_time: 클릭 간 대기 시간
+        Returns:
+            댓글 HTML 문자열
+        """
+        self.driver.get(url)
+        self.driver.implicitly_wait(wait_time)
 
-    nicknames = soup.select('span.u_cbox_nick')
-    list_nicknames = [nickname.text for nickname in nicknames]
+        # 더보기 버튼 클릭
+        while True:
+            try:
+                more = self.driver.find_element(By.CLASS_NAME, 'u_cbox_btn_more')
+                more.click()
+                time.sleep(delay_time)
+            except:
+                break
 
-    datetimes = soup.select('span.u_cbox_date')
-    list_datetimes = [datetime.text for datetime in datetimes]
+        # 답글 버튼 클릭
+        reply_cnts = self.driver.find_elements(By.CLASS_NAME, 'u_cbox_reply_cnt')
+        actions = ActionChains(self.driver)
 
-    contents = soup.select('span.u_cbox_contents')
-    list_contents = [content.text for content in contents]
+        for reply_cnt in reply_cnts:
+            cnt_txt = reply_cnt.text.strip()
+            cnt = int(cnt_txt) if cnt_txt.isdigit() else 0
 
-    # TODO 댓글 id 크롤링
-    recomms = soup.select('em.u_cbox_cnt_recomm')
-    unrecomms = soup.select('em.u_cbox_cnt_unrecomm')
-    list_recomms = [recomm.text for recomm in recomms]
-    list_unrecomms = [unrecomm.text for unrecomm in unrecomms]
+            if cnt > 0:
+                reply_btn = reply_cnt.find_element(By.XPATH, "./parent::*")
+                actions.move_to_element(reply_btn).click().perform()
+                time.sleep(delay_time)
 
+        return self.driver.page_source
 
-    res_comment = list(zip(list_nicknames, list_datetimes, list_contents, list_recomms, list_unrecomms))
+    def _parse_comment(self) -> List[Tuple]:
+        """
+        댓글 내용을 파싱
+        Returns:
+            댓글 정보를 담은 리스트
+        """
+        soup = BeautifulSoup(self.comment_html, 'lxml')
 
+        # 각 요소 추출
+        nicknames = [nickname.text for nickname in soup.select('span.u_cbox_nick')]
+        datetimes = [datetime.text for datetime in soup.select('span.u_cbox_date')]
+        contents = [content.text for content in soup.select('span.u_cbox_contents')]
+        recomms = [recomm.text for recomm in soup.select('em.u_cbox_cnt_recomm')]
+        unrecomms = [unrecomm.text for unrecomm in soup.select('em.u_cbox_cnt_unrecomm')]
 
-    return res_comment
+        return list(zip(nicknames, datetimes, contents, recomms, unrecomms))
+
 
 if __name__ == '__main__':
-    driver = load_driver()
+    url = 'https://n.news.naver.com/mnews/article/081/0003518494'
+    crawler = NaverNewsCrawler(url)
+    article_data, comment_data = crawler.crawl()
 
-    try:
-        url = 'https://n.news.naver.com/mnews/article/081/0003518494'
-        article_soup = get_soup(url)
-        comment_html = get_comment_html(driver, url.replace('/article/', '/article/comment/'))
-
-        press_id, article_num = url.split('article/')[1].split('/')
-        article_id = f'{press_id}_{article_num}'
-
-        res_article_list = parse_article(article_soup, article_id)
-        res_comment_list = parse_comment(comment_html)
-
-        print("/// ARTICLE ///")
-        print(res_article_list)
-        print("/// COMMENT ///")
-        print(res_comment_list)
-
-    finally:
-        driver.quit()
-
-    # TODO db에 추가 (sqlite)
+    print("/// ARTICLE ///")
+    print(article_data)
+    print("/// COMMENT ///")
+    print(comment_data)

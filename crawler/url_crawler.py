@@ -1,69 +1,118 @@
 from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
 import time
+from typing import List
 
 from crawler_utils import load_driver
 
 
-def search_by_keyword(keyword:str):
-    url = f"https://search.naver.com/search.naver?ssc=tab.news.all&where=news&query={keyword}"
+class NaverNewsURLCrawler:
+    NEWS_ID_INCREMENT = 3  # 네이버 뉴스 ID 증가값
 
-    return url
+    def __init__(self, keyword: str, query_n: int):
+        """
+        네이버 뉴스 URL 크롤러 초기화
+        Args:
+            keyword: 검색할 키워드
+            query_n: 크롤링할 뉴스 기사 개수
+        """
+        self.keyword = keyword
+        self.query_n = query_n
+        self.driver = load_driver()
+        self.search_url = self._build_search_url()
 
-def get_news_url(driver, url, query_n:int, wait_time=5, delay_time=0.5) -> list[str]:
-    news_urls = []
+    def _build_search_url(self) -> str:
+        """
+        검색 URL 생성
+        Returns:
+            네이버 뉴스 검색 URL
+        """
+        return f"https://search.naver.com/search.naver?ssc=tab.news.all&where=news&query={self.keyword}"
 
-    driver.get(url)
-    driver.implicitly_wait(wait_time)
-
-    while True:
-        news_elements = driver.find_elements(By.CSS_SELECTOR, 'a.info:not(.press)')
-        news_n = len(news_elements)
-        print("요청 n:", query_n, "기사 n: ", news_n)
-
-        if query_n <= news_n:
-            for element in news_elements[:query_n]:  # query_n개만큼 가져옴
-                news_url = element.get_attribute('href')
-                news_urls.append(news_url)
-            break
-
+    def crawl(self, wait_time=5, delay_time=0.5) -> List[str]:
+        """
+        뉴스 URL 크롤링
+        Args:
+            wait_time: 페이지 로딩 대기 시간
+            delay_time: 스크롤 후 대기 시간
+        Returns:
+            크롤링된 뉴스 URL 리스트
+        """
         try:
-            parent_li = news_elements[-1].find_element(By.XPATH, "./ancestor::li")
-            current_id = int(parent_li.get_attribute('id')[6:])
+            news_urls = self._get_news_urls(wait_time, delay_time)
+            return news_urls
+        finally:
+            self.driver.quit()
 
-            target_id = current_id + 3 * (query_n - news_n)  # 예상 ID 계산
+    def _get_news_urls(self, wait_time: int, delay_time: float) -> List[str]:
+        """
+        뉴스 URL 수집
+        Args:
+            wait_time: 페이지 로딩 대기 시간
+            delay_time: 스크롤 후 대기 시간
+        Returns:
+            수집된 뉴스 URL 리스트
+        """
+        news_urls = []
 
-            scroll_script = f"""
-                // 현재 화면에 보이는 마지막 요소의 위치 가져오기
-                let currentElement = document.getElementById('sp_nws{current_id}');
-                let currentPos = currentElement.getBoundingClientRect().top;
+        self.driver.get(self.search_url)
+        self.driver.implicitly_wait(wait_time)
 
-                // 예상되는 다음 요소들의 간격을 계산하여 스크롤
-                let estimatedHeight = currentElement.offsetHeight;
-                let numberOfSteps = {target_id - current_id};
-                let scrollAmount = currentPos + (estimatedHeight * numberOfSteps * 1.2); // 여유있게 1.2배
+        while True:
+            news_elements = self.driver.find_elements(By.CSS_SELECTOR, 'a.info:not(.press)')
+            news_n = len(news_elements)
 
-                window.scrollBy(0, scrollAmount);
-            """
+            if self.query_n <= news_n:
+                for element in news_elements[:self.query_n]:
+                    news_url = element.get_attribute('href')
+                    news_urls.append(news_url)
+                break
 
-            driver.execute_script(scroll_script)
-            time.sleep(delay_time)
+            try:
+                parent_li = news_elements[-1].find_element(By.XPATH, "./ancestor::li")
+                current_id = int(parent_li.get_attribute('id')[6:])
 
-        except NoSuchElementException:
-            print("스크롤할 요소를 찾을 수 없음.")
-            break
-        except Exception as e:
-            print(f"예상치 못한 오류 발생: {e}")
-            raise
+                additional_news_needed = self.query_n - news_n
+                target_id = current_id + (additional_news_needed * self.NEWS_ID_INCREMENT)
 
-    return news_urls
+                scroll_script = self._build_scroll_script(current_id, additional_news_needed)
+                self.driver.execute_script(scroll_script)
+                time.sleep(delay_time)
 
+            except NoSuchElementException:
+                print("스크롤할 요소를 찾을 수 없음.")
+                break
+            except Exception as e:
+                print(f"예상치 못한 오류 발생: {e}")
+                raise
+
+        return news_urls
+
+    def _build_scroll_script(self, current_id: int, additional_news_needed: int) -> str:
+        """
+        스크롤 JavaScript 코드 생성
+        Args:
+            current_id: 현재 마지막 뉴스의 ID
+            additional_news_needed: 추가로 필요한 뉴스 개수
+        Returns:
+            실행할 JavaScript 코드
+        """
+        return f"""
+            let currentElement = document.getElementById('sp_nws{current_id}');
+            let currentPos = currentElement.getBoundingClientRect().top;
+
+            let estimatedHeight = currentElement.offsetHeight;
+            let numberOfBlocks = {additional_news_needed};
+            let scrollAmount = currentPos + (estimatedHeight * numberOfBlocks * 1.2);
+
+            window.scrollBy(0, scrollAmount);
+        """
 
 
 if __name__ == '__main__':
-    driver = load_driver()
-    keyword, number = input("검색하실 키워드를 입력해주세요: "), int(input("크롤링할 뉴스 기사의 개수를 입력해주세요: "))
+    keyword = input("검색하실 키워드를 입력해주세요: ")
+    number = int(input("크롤링할 뉴스 기사의 개수를 입력해주세요: "))
 
-    url = search_by_keyword(keyword)
-    news_urls_list = get_news_url(driver, url, number)
+    crawler = NaverNewsURLCrawler(keyword, number)
+    news_urls_list = crawler.crawl()
     print(news_urls_list)
