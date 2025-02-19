@@ -1,13 +1,16 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
 
 options = Options()
 
+# selenium 동한 동적 크롤링 시
 def load_driver():
     service = Service()
 
     options = webdriver.ChromeOptions()
+    # options.add_argument("--headless")
     options.add_argument("--start-maximized")
     options.add_experimental_option('detach', True)
 
@@ -24,3 +27,12 @@ def get_html(driver, url, wait_time=5):
     html = driver.execute_script("return document.documentElement.outerHTML;")
 
     return html
+
+# bs4 통한 정적 크롤링 시
+def get_soup(url) -> BeautifulSoup:
+    import requests
+
+    response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    return soup

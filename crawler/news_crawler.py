@@ -5,17 +5,17 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
-from crawler_utils import load_driver, get_html
+from crawler_utils import load_driver, get_soup
 import use_db
 
-def parse_article(html, article_id):
-    soup = BeautifulSoup(html, 'lxml')
+def parse_article(article_soup, article_id):
+    soup = article_soup
 
     article_id = article_id
     article_title = soup.select_one('div.media_end_head_title').text.strip()
     journal = soup.select_one('a.media_end_head_top_logo').text.strip()
     reporter_name = soup.select_one('em.media_end_head_journalist_name').text.strip()
-    datetime = soup.select_one('div.media_end_head_info_datestamp_bunch').text.strip()
+    datetime = soup.select_one('div.media_end_head_info_datestamp_bunch').text.strip() # TODO 입력 글자 지우고 시계열 연산 쉽게 변환
     article_content = soup.select_one('div#newsct_article').text.strip()
 
 
@@ -119,13 +119,13 @@ if __name__ == '__main__':
 
     try:
         url = 'https://n.news.naver.com/mnews/article/081/0003518494'
-        article_html = get_html(driver, url)
+        article_soup = get_soup(url)
         comment_html = get_comment_html(driver, url.replace('/article/', '/article/comment/'))
 
         press_id, article_num = url.split('article/')[1].split('/')
         article_id = f'{press_id}_{article_num}'
 
-        res_article_list = parse_article(article_html, article_id)
+        res_article_list = parse_article(article_soup, article_id)
         res_comment_list = parse_comment(comment_html)
 
         print("/// ARTICLE ///")
