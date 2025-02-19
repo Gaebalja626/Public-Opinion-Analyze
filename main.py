@@ -1,6 +1,7 @@
 from typing import Optional, Tuple, List
 import logging
 from datetime import datetime
+import os
 
 from crawler.news_crawler import NaverNewsCrawler
 from crawler.url_crawler import NaverNewsURLCrawler
@@ -11,12 +12,38 @@ class NaverNewsCrawlerProgram:
     def __init__(self):
         """네이버 뉴스 크롤러 프로그램 초기화"""
         self._setup_logging()
-        self.db_manager = NewsDBManager()  # DB 매니저 초기화
+        self.db_manager_list = self._load_existing_databases()
+
+    def _load_existing_databases(self) -> List[Tuple[str, NewsDBManager]]:
+        """
+        기존 데이터베이스 파일들을 로드
+        Returns:
+            List of tuples containing (db_name, db_manager)
+        """
+        db_list = []
+        db_directory = "databases"  # 데이터베이스 파일들이 저장된 디렉토리
+
+        # 디렉토리가 없으면 생성
+        if not os.path.exists(db_directory):
+            os.makedirs(db_directory)
+
+        # .db 파일들을 찾아서 매니저 생성
+        for filename in os.listdir(db_directory):
+            if filename.endswith('.db'):
+                db_name = filename[:-3]  # .db 확장자 제거
+                db_manager = NewsDBManager(os.path.join(db_directory, db_name))
+                db_list.append((db_name, db_manager))
+
+        return db_list
 
     def _setup_logging(self):
         """로깅 설정"""
+        log_directory = "logs"
+        if not os.path.exists(log_directory):
+            os.makedirs(log_directory)
+
         logging.basicConfig(
-            filename=f'crawler_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log',
+            filename=os.path.join(log_directory, f'crawler_log_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'),
             level=logging.INFO,
             format='%(asctime)s - %(levelname)s - %(message)s',
             encoding='utf-8'
@@ -123,23 +150,69 @@ class NaverNewsCrawlerProgram:
         Returns:
             저장 성공 여부
         """
-        if not article_data:
+        try:
+            print("\n=== DB 저장을 시작합니다 ===")
+
+            # 현재 사용 가능한 DB 목록 출력
+            if self.db_manager_list:
+                print("\n현재 사용 가능한 DB 목록:")
+                for idx, (db_name, _) in enumerate(self.db_manager_list, 1):
+                    print(f"{idx}) {db_name}")
+            else:
+                print("\n사용 가능한 DB가 없습니다.")
+
+            while True:
+                try:
+                    choice = input("\n새로운 DB를 만드시려면 0, 기존 DB에 저장하시려면 해당 번호를 입력해주세요: ")
+                    db_choice = int(choice)
+
+                    if db_choice == 0:
+                        # 새 DB 생성
+                        while True:
+                            db_name = input("새로 생성할 DB의 이름을 입력해주세요: ")
+                            db_path = os.path.join("databases", db_name)
+
+                            if os.path.exists(f"{db_path}.db"):
+                                print("이미 존재하는 DB 이름입니다. 다른 이름을 입력해주세요.")
+                                continue
+
+                            db_manager = NewsDBManager(db_path)
+                            self.db_manager_list.append((db_name, db_manager))
+                            break
+
+                    elif 1 <= db_choice <= len(self.db_manager_list):
+                        # 기존 DB 선택
+                        db_manager = self.db_manager_list[db_choice - 1][1]
+                    else:
+                        print("올바른 번호를 입력해주세요.")
+                        continue
+                    break
+
+                except ValueError:
+                    print("숫자를 입력해주세요.")
+                    continue
+
+            if not article_data:
+                return False
+
+            # 데이터 저장
+            if not db_manager.save_article(article_data):
+                logging.error(f"기사 저장 실패: {article_data[0]}")
+                return False
+
+            if comment_data and not db_manager.save_comments(article_data[0], comment_data):
+                logging.error(f"댓글 저장 실패: {article_data[0]}")
+                return False
+
+            return True
+
+        except Exception as e:
+            logging.error(f"데이터 저장 중 오류 발생: {str(e)}")
+            print(f"데이터 저장 중 오류가 발생했습니다: {str(e)}")
             return False
 
-        success = True
-        if not self.db_manager.save_article(article_data):
-            logging.error(f"기사 저장 실패: {article_data[0]}")
-            success = False
-
-        if comment_data and not self.db_manager.save_comments(article_data[0], comment_data):
-            logging.error(f"댓글 저장 실패: {article_data[0]}")
-            success = False
-
-        return success
-
     def _print_results(self, article_data: list, comment_data: list):
-        """크롤링 결과 출력"""
-        # 기존 출력 로직
+        """크롤링 결과 출력 및 저장"""
         if article_data:
             print("\n=== 기사 정보 ===")
             print(f"제목: {article_data[1]}")
@@ -160,13 +233,11 @@ class NaverNewsCrawlerProgram:
             if len(comment_data) > 3:
                 print(f"\n... 외 {len(comment_data) - 3}개의 댓글")
 
-        # 저장 결과 출력 추가
+        # 저장 프로세스 실행
         if self._save_crawling_results(article_data, comment_data):
-            print("\n데이터베이스 저장 완료")
-            print(f"총 저장된 기사 수: {self.db_manager.get_article_count()}")
-            print(f"총 저장된 댓글 수: {self.db_manager.get_comment_count()}")
+            print("\n데이터베이스 저장이 완료되었습니다.")
         else:
-            print("\n데이터베이스 저장 중 일부 오류가 발생했습니다.")
+            print("\n데이터베이스 저장 중 오류가 발생했습니다.")
 
     def run(self):
         """프로그램 실행"""
