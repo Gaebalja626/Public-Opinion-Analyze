@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
-from .crawler_utils import load_driver, get_soup
+from crawler_utils import load_driver, get_soup
 
 
 class NaverNewsCrawler:
@@ -20,9 +20,8 @@ class NaverNewsCrawler:
         self.article_soup = get_soup(url)
         self.comment_html = None
 
-        # URL에서 article_id 추출
-        press_id, article_num = url.split('article/')[1].split('/')
-        self.article_id = f'{press_id}_{article_num}'
+        self.journal_id, article_num = url.split('article/')[1].split('/')
+        self.article_id = f'{self.journal_id}_{article_num}'
 
     def crawl(self) -> Tuple[List, List]:
         """
@@ -49,21 +48,26 @@ class NaverNewsCrawler:
         뉴스 기사 내용을 파싱
         Returns:
             기사 정보를 담은 리스트
+            기사 id, 제목, 언론사, 기자 id, 발행 날짜, 수정 날짜, 기사 내용
         """
         soup = self.article_soup
 
         article_title = soup.select_one('div.media_end_head_title').text.strip()
-        journal = soup.select_one('a.media_end_head_top_logo').text.strip()
-        reporter_name = soup.select_one('em.media_end_head_journalist_name').text.strip()
-        datetime = soup.select_one('div.media_end_head_info_datestamp_bunch').text.strip()
+        journalist_id = soup.select_one('a.media_end_head_journalist_box')['href'][-5:]
+        # 저널명이나 기자이름은 따로 그 전용페이지 가서 또 크롤링해오는 게 나을 거 같긴 한데 일단 남겨둠.
+        # journal = soup.select_one('a.media_end_head_top_logo').text.strip()
+        # reporter_name = soup.select_one('em.media_end_head_journalist_name').text.strip()
+        datetime = soup.select_one('span._ARTICLE_DATE_TIME').text.strip()
+        modify_datetime = soup.select_one('span._ARTICLE_MODIFY_DATE_TIME').text.strip()
         article_content = soup.select_one('div#newsct_article').text.strip()
 
         return [
             self.article_id,
             article_title,
-            journal,
-            reporter_name,
+            self.journal_id,
+            journalist_id,
             datetime,
+            modify_datetime,
             article_content
         ]
 
@@ -112,14 +116,20 @@ class NaverNewsCrawler:
         """
         soup = BeautifulSoup(self.comment_html, 'lxml')
 
-        # 각 요소 추출
-        nicknames = [nickname.text for nickname in soup.select('span.u_cbox_nick')]
+        # nicknames = [nickname.text for nickname in soup.select('span.u_cbox_nick')]
+        user_ids = []
+        import re
+        users_data = soup.select('a.u_cbox_btn_userblock')
+        for user_data in users_data:
+            user_data_param = user_data['data-param']
+            match = re.search(r"idNo:'(.*?)'", user_data_param)
+            user_ids.append(match.group(1))
         datetimes = [datetime.text for datetime in soup.select('span.u_cbox_date')]
         contents = [content.text for content in soup.select('span.u_cbox_contents')]
-        recomms = [recomm.text for recomm in soup.select('em.u_cbox_cnt_recomm')]
-        unrecomms = [unrecomm.text for unrecomm in soup.select('em.u_cbox_cnt_unrecomm')]
+        upvotes = [upvote.text for upvote in soup.select('em.u_cbox_cnt_recomm')]
+        downvotes = [downvote.text for downvote in soup.select('em.u_cbox_cnt_unrecomm')]
 
-        return list(zip(nicknames, datetimes, contents, recomms, unrecomms))
+        return list(zip(user_ids, datetimes, contents, upvotes, downvotes))
 
 
 if __name__ == '__main__':

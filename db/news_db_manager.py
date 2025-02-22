@@ -22,8 +22,8 @@ class NewsDBManager:
                 CREATE TABLE IF NOT EXISTS articles (
                     article_id TEXT PRIMARY KEY,
                     title TEXT NOT NULL,
-                    journal TEXT NOT NULL,
-                    reporter TEXT NOT NULL,
+                    journal_id TEXT NOT NULL,
+                    reporter_id TEXT NOT NULL,
                     published_date TEXT NOT NULL,
                     content TEXT NOT NULL,
                     crawled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
