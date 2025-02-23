@@ -9,7 +9,7 @@ from .crawler_utils import load_driver
 class NaverNewsURLCrawler:
     NEWS_ID_INCREMENT = 3  # 네이버 뉴스 ID 증가값
 
-    def __init__(self, keyword: str, query_n: int):
+    def __init__(self, keyword: str, query_n: int, sort_by: str):
         """
         네이버 뉴스 URL 크롤러 초기화
         Args:
@@ -18,6 +18,7 @@ class NaverNewsURLCrawler:
         """
         self.keyword = keyword
         self.query_n = query_n
+        self.sort_by = sort_by
         self.driver = load_driver()
         self.search_url = self._build_search_url()
 
@@ -27,7 +28,14 @@ class NaverNewsURLCrawler:
         Returns:
             네이버 뉴스 검색 URL
         """
-        return f"https://search.naver.com/search.naver?ssc=tab.news.all&where=news&query={self.keyword}"
+        match self.sort_by:
+            case '1':# 관련도순
+                return f"https://search.naver.com/search.naver?ssc=tab.news.all&where=news&query={self.keyword}"
+            case '2':
+                return f"https://search.naver.com/search.naver?where=news&query={self.keyword}&sm=tab_opt&sort=1&photo=0&field=0&pd=0&ds=&de=&docid=&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so%3Add%2Cp%3Aall&is_sug_officeid=0&office_category=0&service_area=0"
+            case _:
+                raise ValueError('올바르지 않은 입력입니다.')
+
 
     def crawl(self, wait_time=5, delay_time=0.5) -> List[str]:
         """
@@ -112,7 +120,8 @@ class NaverNewsURLCrawler:
 if __name__ == '__main__':
     keyword = input("검색하실 키워드를 입력해주세요: ")
     number = int(input("크롤링할 뉴스 기사의 개수를 입력해주세요: "))
+    sort = input('정렬 기준을 선택해 숫자를 입력해 주세요. ( 1-관련도순, 2-최신순 ): ')
 
-    crawler = NaverNewsURLCrawler(keyword, number)
+    crawler = NaverNewsURLCrawler(keyword, number, sort)
     news_urls_list = crawler.crawl()
     print(news_urls_list)

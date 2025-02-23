@@ -114,12 +114,20 @@ class NaverNewsCrawlerProgram:
                 break
             except ValueError:
                 print("올바른 숫자를 입력해주세요.")
+        while True:
+            try:
+                sort_by = input("정렬 기준을 선택해주세요 (1-관련도순, 2-최신순): ")
+                if sort_by not in ['1','2']:
+                    continue
+                break
+            except ValueError:
+                print("올바른 숫자를 입력해주세요.")
 
-        logging.info(f"키워드 검색 크롤링 시작 - 키워드: {keyword}, 요청 개수: {number}")
+        logging.info(f"키워드 검색 크롤링 시작 - 키워드: {keyword}, 요청 개수: {number}, 정렬 기준: {sort_by}")
 
         results = []
         try:
-            url_crawler = NaverNewsURLCrawler(keyword, number)
+            url_crawler = NaverNewsURLCrawler(keyword, number, sort_by)
             news_urls = url_crawler.crawl()
 
             for idx, news_url in enumerate(news_urls, 1):
@@ -250,6 +258,7 @@ class NaverNewsCrawlerProgram:
 
             if choice == 1:
                 article_data, comment_data = self._crawl_single_url()
+                print(comment_data)
                 self._print_results(article_data, comment_data)
 
             elif choice == 2:

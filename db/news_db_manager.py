@@ -23,24 +23,25 @@ class NewsDBManager:
                     article_id TEXT PRIMARY KEY,
                     title TEXT NOT NULL,
                     journal_id TEXT NOT NULL,
-                    reporter_id TEXT NOT NULL,
+                    reporter_id TEXT,
                     published_date TEXT NOT NULL,
+                    modified_date TEXT NOT NULL,
                     content TEXT NOT NULL,
                     crawled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             """)
 
             # 댓글 테이블 생성
+            # TODO comment_id
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS comments (
-                    comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    comment_id INTEGER PRIMARY KEY AUTOINCREMENT, 
                     article_id TEXT NOT NULL,
-                    nickname TEXT NOT NULL,
-                    datetime TEXT NOT NULL,
-                    content TEXT NOT NULL,
-                    recommends INTEGER NOT NULL,
-                    unrecommends INTEGER NOT NULL,
-                    crawled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    nickname TEXT,
+                    datetime TEXT,
+                    content TEXT,
+                    recommends INTEGER,
+                    unrecommends INTEGER,
                     FOREIGN KEY (article_id) REFERENCES articles (article_id)
                 )
             """)
@@ -60,8 +61,8 @@ class NewsDBManager:
                 cursor = conn.cursor()
                 cursor.execute("""
                     INSERT OR REPLACE INTO articles 
-                    (article_id, title, journal, reporter, published_date, content)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    (article_id, title, journal_id, reporter_id, published_date, modified_date, content)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
                 """, article_data)
                 conn.commit()
                 return True
@@ -82,8 +83,11 @@ class NewsDBManager:
             with sqlite3.connect(self.db_name) as conn:
                 cursor = conn.cursor()
                 for comment in comment_data:
-                    recommends = int(comment[3].replace(',', ''))
-                    unrecommends = int(comment[4].replace(',', ''))
+                    try:
+                        recommends = int(comment[3].replace(',', ''))
+                        unrecommends = int(comment[4].replace(',', ''))
+                    except:
+                        recommends, unrecommends = None, None
 
                     cursor.execute("""
                         INSERT INTO comments 
@@ -171,3 +175,4 @@ class NewsDBManager:
             results = cursor.fetchall()
 
             return [row[0] for row in results]
+

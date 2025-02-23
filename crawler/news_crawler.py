@@ -1,11 +1,12 @@
 import time
+import re
 from typing import List, Tuple
 
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
-from crawler_utils import load_driver, get_soup
+from .crawler_utils import load_driver, get_soup
 
 
 class NaverNewsCrawler:
@@ -19,8 +20,16 @@ class NaverNewsCrawler:
         self.driver = load_driver()
         self.article_soup = get_soup(url)
         self.comment_html = None
+        self.comment_count = None
 
-        self.journal_id, article_num = url.split('article/')[1].split('/')
+        match = re.search(r"/article/(\d+)/(\d+)\?", url)
+
+        if match:
+            self.journal_id = match.group(1)
+            article_num = match.group(2)
+        else:
+            self.journal_id, article_num = url.split('article/')[1].split('/')
+
         self.article_id = f'{self.journal_id}_{article_num}'
 
     def crawl(self) -> Tuple[List, List]:
@@ -30,13 +39,15 @@ class NaverNewsCrawler:
             기사 정보와 댓글 정보를 포함하는 튜플
         """
         try:
-            # 댓글 HTML 가져오기
             comment_url = self.url.replace('/article/', '/article/comment/')
             self.comment_html = self._get_comment_html(comment_url)
 
-            # 기사와 댓글 파싱
             article_data = self._parse_article()
-            comment_data = self._parse_comment()
+
+            if self.comment_count:
+                comment_data = self._parse_comment()
+            else:
+                comment_data = [tuple([None for _ in range(5)])]
 
             return article_data, comment_data
 
@@ -53,12 +64,18 @@ class NaverNewsCrawler:
         soup = self.article_soup
 
         article_title = soup.select_one('div.media_end_head_title').text.strip()
-        journalist_id = soup.select_one('a.media_end_head_journalist_box')['href'][-5:]
+        try:
+            journalist_id = soup.select_one('a.media_end_head_journalist_box')['href'][-5:]
+        except:
+            journalist_id = None
         # 저널명이나 기자이름은 따로 그 전용페이지 가서 또 크롤링해오는 게 나을 거 같긴 한데 일단 남겨둠.
         # journal = soup.select_one('a.media_end_head_top_logo').text.strip()
         # reporter_name = soup.select_one('em.media_end_head_journalist_name').text.strip()
         datetime = soup.select_one('span._ARTICLE_DATE_TIME').text.strip()
-        modify_datetime = soup.select_one('span._ARTICLE_MODIFY_DATE_TIME').text.strip()
+        try:
+            modify_datetime = soup.select_one('span._ARTICLE_MODIFY_DATE_TIME').text.strip()
+        except:
+            modify_datetime = datetime
         article_content = soup.select_one('div#newsct_article').text.strip()
 
         return [
@@ -83,6 +100,9 @@ class NaverNewsCrawler:
         """
         self.driver.get(url)
         self.driver.implicitly_wait(wait_time)
+
+        self.comment_count = int(self.driver.find_element(By.CLASS_NAME, 'u_cbox_count').text)
+        if not self.comment_count: return None
 
         # 더보기 버튼 클릭
         while True:
@@ -117,6 +137,7 @@ class NaverNewsCrawler:
         soup = BeautifulSoup(self.comment_html, 'lxml')
 
         # nicknames = [nickname.text for nickname in soup.select('span.u_cbox_nick')]
+        # TODO comment_id 크롤링
         user_ids = []
         import re
         users_data = soup.select('a.u_cbox_btn_userblock')
@@ -133,7 +154,7 @@ class NaverNewsCrawler:
 
 
 if __name__ == '__main__':
-    url = 'https://n.news.naver.com/mnews/article/081/0003518494'
+    url = 'https://n.news.naver.com/mnews/article/088/0000932490?sid=100'
     crawler = NaverNewsCrawler(url)
     article_data, comment_data = crawler.crawl()
 
