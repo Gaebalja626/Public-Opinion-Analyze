@@ -9,16 +9,20 @@ from .crawler_utils import load_driver
 class NaverNewsURLCrawler:
     NEWS_ID_INCREMENT = 3  # 네이버 뉴스 ID 증가값
 
-    def __init__(self, keyword: str, query_n: int, sort_by: str):
+    def __init__(self, keyword: str, query_n: int, sort_by: int, date_range: tuple):
         """
         네이버 뉴스 URL 크롤러 초기화
         Args:
             keyword: 검색할 키워드
             query_n: 크롤링할 뉴스 기사 개수
+            sort_by: 정렬 기준
+            date_range: 날짜 범위
         """
         self.keyword = keyword
-        self.query_n = query_n
         self.sort_by = sort_by
+        self.start_date, self.end_date = date_range
+        self.query_n = query_n
+
         self.driver = load_driver()
         self.search_url = self._build_search_url()
 
@@ -28,13 +32,7 @@ class NaverNewsURLCrawler:
         Returns:
             네이버 뉴스 검색 URL
         """
-        match self.sort_by:
-            case '1':# 관련도순
-                return f"https://search.naver.com/search.naver?ssc=tab.news.all&where=news&query={self.keyword}"
-            case '2':
-                return f"https://search.naver.com/search.naver?where=news&query={self.keyword}&sm=tab_opt&sort=1&photo=0&field=0&pd=0&ds=&de=&docid=&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so%3Add%2Cp%3Aall&is_sug_officeid=0&office_category=0&service_area=0"
-            case _:
-                raise ValueError('올바르지 않은 입력입니다.')
+        return f'https://search.naver.com/search.naver?where=news&query={self.keyword}&sm=tab_opt&sort={self.sort_by}&photo=0&field=0&pd=3&ds={self.start_date}&de={self.end_date}&docid=&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so%3Ar%2Cp%3Afrom20250222to20250222&is_sug_officeid=0&office_category=0&service_area=0'
 
 
     def crawl(self, wait_time=5, delay_time=0.5) -> List[str]:

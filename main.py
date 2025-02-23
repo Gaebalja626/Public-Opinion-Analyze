@@ -49,6 +49,14 @@ class NaverNewsCrawlerProgram:
             encoding='utf-8'
         )
 
+    def _validate_date_format(self, date_str: str) -> bool:
+        """날짜 형식이 올바른지 검증"""
+        try:
+            datetime.strptime(date_str, '%Y.%m.%d')
+            return True
+        except ValueError:
+            return False
+
     def _print_header(self):
         """프로그램 헤더 출력"""
         print("""
@@ -116,18 +124,58 @@ class NaverNewsCrawlerProgram:
                 print("올바른 숫자를 입력해주세요.")
         while True:
             try:
-                sort_by = input("정렬 기준을 선택해주세요 (1-관련도순, 2-최신순): ")
-                if sort_by not in ['1','2']:
+                sort_by = int(input("정렬 기준을 선택해주세요 (0-관련도 순, 1-최신 순, 2-오래된 순): "))
+                if sort_by not in [0,1,2]:
+                    print("올바른 숫자를 입력해주세요.")
                     continue
                 break
             except ValueError:
                 print("올바른 숫자를 입력해주세요.")
+        while True:
+            try:
+                date_option = input("전체 기간에 대해 검색하시겠습니까? (y/n): ")
+                if date_option not in ['y','n']:
+                    continue
+                break
+            except ValueError:
+                print("올바른 문자를 입력해주세요.")
+        while True:
+            if date_option == 'n':
+                print("\n날짜 형식은 YYYY.MM.DD 입니다. (예: 2024.02.25)")
+                while True:
+                    start_date = input("시작 날짜를 입력해주세요: ")
+                    if not self._validate_date_format(start_date):
+                        print("올바른 날짜 형식이 아닙니다. 다시 입력해주세요.")
+                        continue
 
-        logging.info(f"키워드 검색 크롤링 시작 - 키워드: {keyword}, 요청 개수: {number}, 정렬 기준: {sort_by}")
+                    while True:
+                        end_date = input("종료 날짜를 입력해주세요: ")
+                        if not self._validate_date_format(end_date):
+                            print("올바른 날짜 형식이 아닙니다. 다시 입력해주세요.")
+                            continue
+
+                        start = datetime.strptime(start_date, '%Y.%m.%d')
+                        end = datetime.strptime(end_date, '%Y.%m.%d')
+
+                        if end < start:
+                            print("종료 날짜는 시작 날짜보다 늦어야 합니다.")
+                            continue
+
+                        date_range = (start_date, end_date)
+                        break
+                    break
+                break
+            elif date_option == 'y':
+                date_range = '',''  # 전체 기간 검색
+                break
+
+
+
+        logging.info(f"키워드 검색 크롤링 시작 - 키워드: {keyword}, 요청 개수: {number}, 정렬 기준: {sort_by}, 전체 기간 검색: {date_option}")
 
         results = []
         try:
-            url_crawler = NaverNewsURLCrawler(keyword, number, sort_by)
+            url_crawler = NaverNewsURLCrawler(keyword, number, sort_by, date_range)
             news_urls = url_crawler.crawl()
 
             for idx, news_url in enumerate(news_urls, 1):
