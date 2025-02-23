@@ -170,7 +170,6 @@ class NaverNewsCrawlerProgram:
                 break
 
 
-
         logging.info(f"키워드 검색 크롤링 시작 - 키워드: {keyword}, 요청 개수: {number}, 정렬 기준: {sort_by}, 전체 기간 검색: {date_option}")
 
         results = []
@@ -197,77 +196,100 @@ class NaverNewsCrawlerProgram:
 
         return results
 
-    def _save_crawling_results(self, article_data: list, comment_data: list) -> bool:
+    def _select_database(self) -> Optional[NewsDBManager]:
+        """
+        저장할 데이터베이스 선택
+        Returns:
+            선택된 NewsDBManager 인스턴스
+        """
+        print("\n=== DB 저장을 시작합니다 ===")
+
+        # 현재 사용 가능한 DB 목록 출력
+        if self.db_manager_list:
+            print("\n현재 사용 가능한 DB 목록:")
+            for idx, (db_name, _) in enumerate(self.db_manager_list, 1):
+                print(f"{idx}) {db_name}")
+        else:
+            print("\n사용 가능한 DB가 없습니다.")
+
+        while True:
+            try:
+                choice = input("\n새로운 DB를 만드시려면 0, 기존 DB에 저장하시려면 해당 번호를 입력해주세요: ")
+                db_choice = int(choice)
+
+                if db_choice == 0:
+                    # 새 DB 생성
+                    while True:
+                        db_name = input("새로 생성할 DB의 이름을 입력해주세요: ")
+                        db_path = os.path.join("databases", db_name)
+
+                        if os.path.exists(f"{db_path}.db"):
+                            print("이미 존재하는 DB 이름입니다. 다른 이름을 입력해주세요.")
+                            continue
+
+                        db_manager = NewsDBManager(db_path)
+                        self.db_manager_list.append((db_name, db_manager))
+                        return db_manager
+
+                elif 1 <= db_choice <= len(self.db_manager_list):
+                    # 기존 DB 선택
+                    return self.db_manager_list[db_choice - 1][1]
+                else:
+                    print("올바른 번호를 입력해주세요.")
+
+            except ValueError:
+                print("숫자를 입력해주세요.")
+
+    def _save_crawling_results(self, article_data, comment_data) -> bool:
         """
         크롤링 결과를 데이터베이스에 저장
         Args:
-            article_data: 기사 데이터
-            comment_data: 댓글 데이터
+            article_data: 단일 기사 데이터 또는 기사 데이터 리스트
+            comment_data: 단일 댓글 데이터 또는 댓글 데이터 리스트
         Returns:
             저장 성공 여부
         """
         try:
-            print("\n=== DB 저장을 시작합니다 ===")
+            db_manager = self._select_database()
+            if db_manager is None:
+                return False
 
-            # 현재 사용 가능한 DB 목록 출력
-            if self.db_manager_list:
-                print("\n현재 사용 가능한 DB 목록:")
-                for idx, (db_name, _) in enumerate(self.db_manager_list, 1):
-                    print(f"{idx}) {db_name}")
-            else:
-                print("\n사용 가능한 DB가 없습니다.")
+            # 단일 기사인 경우 리스트로 변환
+            if isinstance(article_data, list) and not isinstance(article_data[0], list):
+                article_data = [article_data]
+                comment_data = [comment_data]
 
-            while True:
-                try:
-                    choice = input("\n새로운 DB를 만드시려면 0, 기존 DB에 저장하시려면 해당 번호를 입력해주세요: ")
-                    db_choice = int(choice)
-
-                    if db_choice == 0:
-                        # 새 DB 생성
-                        while True:
-                            db_name = input("새로 생성할 DB의 이름을 입력해주세요: ")
-                            db_path = os.path.join("databases", db_name)
-
-                            if os.path.exists(f"{db_path}.db"):
-                                print("이미 존재하는 DB 이름입니다. 다른 이름을 입력해주세요.")
-                                continue
-
-                            db_manager = NewsDBManager(db_path)
-                            self.db_manager_list.append((db_name, db_manager))
-                            break
-
-                    elif 1 <= db_choice <= len(self.db_manager_list):
-                        # 기존 DB 선택
-                        db_manager = self.db_manager_list[db_choice - 1][1]
-                    else:
-                        print("올바른 번호를 입력해주세요.")
-                        continue
-                    break
-
-                except ValueError:
-                    print("숫자를 입력해주세요.")
+            success = True
+            for idx, (article, comments) in enumerate(zip(article_data, comment_data)):
+                if not article:  # 빈 기사 데이터 건너뛰기
                     continue
 
-            if not article_data:
-                return False
+                try:
+                    if not db_manager.save_article(article):
+                        logging.error(f"기사 저장 실패: {article[0]}")
+                        success = False
+                        continue
 
-            # 데이터 저장
-            if not db_manager.save_article(article_data):
-                logging.error(f"기사 저장 실패: {article_data[0]}")
-                return False
+                    if comments:
+                        if not db_manager.save_comments(article[0], comments):
+                            logging.error(f"댓글 저장 실패: {article[0]}")
+                            success = False
 
-            if comment_data and not db_manager.save_comments(article_data[0], comment_data):
-                logging.error(f"댓글 저장 실패: {article_data[0]}")
-                return False
+                    print(f"\n{idx + 1}번째 기사 저장 완료")
 
-            return True
+                except Exception as e:
+                    logging.error(f"데이터 저장 중 오류 발생: {str(e)}")
+                    success = False
+                    continue
+
+            return success
 
         except Exception as e:
             logging.error(f"데이터 저장 중 오류 발생: {str(e)}")
             print(f"데이터 저장 중 오류가 발생했습니다: {str(e)}")
             return False
 
-    def _print_results(self, article_data: list, comment_data: list):
+    def _print_preview(self, article_data: list, comment_data: list):
         """크롤링 결과 출력 및 저장"""
         if article_data:
             print("\n=== 기사 정보 ===")
@@ -289,11 +311,11 @@ class NaverNewsCrawlerProgram:
             if len(comment_data) > 3:
                 print(f"\n... 외 {len(comment_data) - 3}개의 댓글")
 
-        # 저장 프로세스 실행
-        if self._save_crawling_results(article_data, comment_data):
-            print("\n데이터베이스 저장이 완료되었습니다.")
-        else:
-            print("\n데이터베이스 저장 중 오류가 발생했습니다.")
+        # # 저장 프로세스 실행
+        # if self._save_crawling_results(article_data, comment_data):
+        #     print("\n데이터베이스 저장이 완료되었습니다.")
+        # else:
+        #     print("\n데이터베이스 저장 중 오류가 발생했습니다.")
 
     def run(self):
         """프로그램 실행"""
@@ -304,16 +326,27 @@ class NaverNewsCrawlerProgram:
             if choice is None:
                 continue
 
-            if choice == 1:
+            if choice == 1:  # 단일 URL
                 article_data, comment_data = self._crawl_single_url()
-                print(comment_data)
-                self._print_results(article_data, comment_data)
+                if article_data:
+                    self._print_preview(article_data, comment_data)
+                    if self._save_crawling_results(article_data, comment_data):
+                        print("\n데이터베이스 저장이 완료되었습니다.")
+                    else:
+                        print("\n데이터베이스 저장 중 오류가 발생했습니다.")
 
-            elif choice == 2:
+            elif choice == 2:  # 키워드 검색
                 results = self._crawl_by_keyword()
-                for idx, (article_data, comment_data) in enumerate(results, 1):
-                    print(f"\n\n=== {idx}번째 기사 결과 ===")
-                    self._print_results(article_data, comment_data)
+                if results:
+                    articles, comments = zip(*results)
+                    for idx, (article_data, comment_data) in enumerate(results, 1):
+                        print(f"\n\n=== {idx}번째 기사 결과 ===")
+                        self._print_preview(article_data, comment_data)
+
+                    if self._save_crawling_results(articles, comments):
+                        print("\n모든 데이터베이스 저장이 완료되었습니다.")
+                    else:
+                        print("\n일부 데이터 저장 중 오류가 발생했습니다.")
 
             else:
                 print("""
@@ -325,7 +358,6 @@ class NaverNewsCrawlerProgram:
 
             print("\n계속하려면 Enter를 누르세요...")
             _ = input()
-
 if __name__ == '__main__':
     program = NaverNewsCrawlerProgram()
     program.run()
