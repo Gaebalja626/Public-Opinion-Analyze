@@ -1,0 +1,315 @@
+2025-02-24 01:39:40,066 - INFO - 키워드 검색 크롤링 시작 - 키워드: 윤석열, 요청 개수: 50, 정렬 기준: 0, 전체 기간 검색: ('2025.02.22', '2025.02.22')
+2025-02-24 01:39:48,447 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732425?sid=102
+2025-02-24 01:40:31,685 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/014/0005311857?sid=102
+2025-02-24 01:41:16,865 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/654/0000107308?sid=100
+2025-02-24 01:41:32,912 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015227885?sid=102
+2025-02-24 01:42:35,159 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463513?sid=102
+2025-02-24 01:44:04,625 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/016/0002432605?sid=100
+2025-02-24 01:44:23,241 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/057/0001873095?sid=100
+2025-02-24 01:44:35,538 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/214/0001407082?sid=100
+2025-02-24 01:46:01,364 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/015/0005097694?sid=102
+2025-02-24 01:46:27,888 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352559?sid=100
+2025-02-24 01:46:51,948 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/079/0003994922?sid=102
+2025-02-24 01:47:45,302 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/057/0001873085?sid=100
+2025-02-24 01:48:14,717 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352572?sid=102
+2025-02-24 01:49:00,356 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/629/0000367003?sid=100
+2025-02-24 01:49:19,248 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/002/0002374486?sid=100
+2025-02-24 01:50:33,920 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/057/0001873092?sid=102
+2025-02-24 02:48:38,133 - ERROR - 개별 기사 크롤링 중 오류: Message: invalid session id: session deleted as the browser has closed the connection
+from disconnected: Unable to receive message from renderer
+  (Session info: chrome=133.0.6943.127)
+Stacktrace:
+	GetHandleVerifier [0x00007FF699086EE5+28773]
+	(No symbol) [0x00007FF698FF25D0]
+	(No symbol) [0x00007FF698E88FAA]
+	(No symbol) [0x00007FF698E7646C]
+	(No symbol) [0x00007FF698E7615A]
+	(No symbol) [0x00007FF698E73CEE]
+	(No symbol) [0x00007FF698E747AF]
+	(No symbol) [0x00007FF698E8E3B1]
+	(No symbol) [0x00007FF698E8EEAA]
+	(No symbol) [0x00007FF698E9377C]
+	(No symbol) [0x00007FF698E9384F]
+	(No symbol) [0x00007FF698ED8EC6]
+	(No symbol) [0x00007FF698F0724A]
+	(No symbol) [0x00007FF698ED1B36]
+	(No symbol) [0x00007FF698F07460]
+	(No symbol) [0x00007FF698F2F6F3]
+	(No symbol) [0x00007FF698F07023]
+	(No symbol) [0x00007FF698ECFF5E]
+	(No symbol) [0x00007FF698ED11E3]
+	GetHandleVerifier [0x00007FF6993D422D+3490733]
+	GetHandleVerifier [0x00007FF6993EBA13+3586963]
+	GetHandleVerifier [0x00007FF6993E144D+3544525]
+	GetHandleVerifier [0x00007FF69914C9AA+838442]
+	(No symbol) [0x00007FF698FFD01F]
+	(No symbol) [0x00007FF698FF95E4]
+	(No symbol) [0x00007FF698FF9786]
+	(No symbol) [0x00007FF698FE8CB9]
+	BaseThreadInitThunk [0x00007FFEBB7CDBE7+23]
+	RtlUserThreadStart [0x00007FFEBBB25A4C+44]
+ // url=https://n.news.naver.com/mnews/article/057/0001873092?sid=102
+2025-02-24 02:48:38,134 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/008/0005156836?sid=102
+2025-02-24 02:48:49,588 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008091513?sid=102
+2025-02-24 02:48:55,216 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732426?sid=102
+2025-02-24 02:52:01,395 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013082279?sid=102
+2025-02-24 02:52:05,982 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352542?sid=100
+2025-02-24 02:55:37,597 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015227897?sid=100
+2025-02-24 02:55:42,108 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/015/0005097666?sid=100
+2025-02-24 02:56:27,811 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013082366?sid=102
+2025-02-24 02:56:32,301 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008091519?sid=102
+2025-02-24 02:56:42,035 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/656/0000122383?sid=102
+2025-02-24 02:57:17,278 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008091659?sid=102
+2025-02-24 02:57:32,224 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463508?sid=102
+2025-02-24 02:57:47,429 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/022/0004013159?sid=100
+2025-02-24 02:58:38,087 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008091571?sid=102
+2025-02-24 02:58:42,769 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/079/0003994876?sid=102
+2025-02-24 02:59:38,395 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/016/0002432630?sid=101
+2025-02-24 03:02:02,927 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008091580?sid=102
+2025-02-24 03:02:07,488 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008091527?sid=102
+2025-02-24 03:02:17,510 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008091638?sid=102
+2025-02-24 03:02:22,091 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/002/0002374456?sid=100
+2025-02-24 03:02:58,675 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732429?sid=102
+2025-02-24 03:03:11,187 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008091521?sid=102
+2025-02-24 03:03:15,705 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732380?sid=100
+2025-02-24 03:05:17,831 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/659/0000030708?sid=102
+2025-02-24 03:05:38,821 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013082385?sid=100
+2025-02-24 03:05:48,667 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008092001?sid=102
+2025-02-24 03:05:53,191 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/088/0000932376?sid=102
+2025-02-24 03:07:25,312 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008092000?sid=102
+2025-02-24 03:07:29,788 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008091999?sid=102
+2025-02-24 03:07:34,393 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/657/0000035285?sid=100
+2025-02-24 03:08:32,701 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/629/0000366996?sid=102
+2025-02-24 03:08:48,145 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352571?sid=100
+2025-02-24 03:09:09,266 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/055/0001234116?sid=100
+2025-02-24 03:09:22,050 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013082224?sid=100
+2025-02-24 03:11:51,881 - INFO - 단일 URL 크롤링 시작: https://n.news.naver.com/mnews/article/057/0001873092?sid=102
+2025-02-24 03:16:08,193 - INFO - 키워드 검색 크롤링 시작 - 키워드: 윤석열, 요청 개수: 50, 정렬 기준: 0, 전체 기간 검색: ('2025.02.21', '2025.02.21')
+2025-02-24 03:16:15,479 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352446?sid=102
+2025-02-24 03:16:56,403 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732305?sid=100
+2025-02-24 03:18:24,603 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008089973?sid=100
+2025-02-24 03:18:37,943 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732226?sid=102
+2025-02-24 03:20:13,713 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/469/0000850198?sid=102
+2025-02-24 03:20:28,677 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/052/0002156125?sid=102
+2025-02-24 03:21:01,908 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/009/0005447890?sid=100
+2025-02-24 03:21:14,197 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/033/0000048384?sid=100
+2025-02-24 03:21:46,640 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/214/0001406998?sid=102
+2025-02-24 03:22:07,024 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/123/0002353478?sid=100
+2025-02-24 03:22:36,432 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732305?sid=100
+2025-02-24 03:24:07,829 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732374?sid=100
+2025-02-24 03:24:36,281 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/666/0000065076?sid=100
+2025-02-24 03:25:07,914 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/033/0000048384?sid=100
+2025-02-24 03:25:32,081 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352421?sid=102
+2025-02-24 03:26:06,273 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/214/0001406998?sid=102
+2025-02-24 03:26:26,804 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013081874?sid=102
+2025-02-24 03:26:50,975 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015226540?sid=102
+2025-02-24 03:26:55,587 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463400?sid=100
+2025-02-24 03:27:12,421 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/123/0002353478?sid=100
+2025-02-24 03:27:49,914 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015226657?sid=100
+2025-02-24 03:27:59,647 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732370?sid=102
+2025-02-24 03:28:11,351 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/657/0000035239?sid=100
+2025-02-24 03:29:06,964 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463359?sid=102
+2025-02-24 03:30:13,652 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/025/0003422342?sid=100
+2025-02-24 03:30:39,326 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463356?sid=100
+2025-02-24 03:31:05,444 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/241/0003414997?sid=100
+2025-02-24 03:31:09,965 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/036/0000051207?sid=102
+2025-02-24 03:31:53,304 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015226079?sid=100
+2025-02-24 03:31:58,073 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013080916?sid=102
+2025-02-24 03:32:17,348 - INFO - 기사 크롤링: https://m.entertain.naver.com/article/003/0013080603
+2025-02-24 03:32:27,667 - ERROR - 개별 기사 크롤링 중 오류: Message: no such element: Unable to locate element: {"method":"css selector","selector":".u_cbox_count"}
+  (Session info: chrome=133.0.6943.127); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
+Stacktrace:
+	GetHandleVerifier [0x00007FF699086EE5+28773]
+	(No symbol) [0x00007FF698FF25D0]
+	(No symbol) [0x00007FF698E88FAA]
+	(No symbol) [0x00007FF698EDF286]
+	(No symbol) [0x00007FF698EDF4BC]
+	(No symbol) [0x00007FF698F32A27]
+	(No symbol) [0x00007FF698F0728F]
+	(No symbol) [0x00007FF698F2F6F3]
+	(No symbol) [0x00007FF698F07023]
+	(No symbol) [0x00007FF698ECFF5E]
+	(No symbol) [0x00007FF698ED11E3]
+	GetHandleVerifier [0x00007FF6993D422D+3490733]
+	GetHandleVerifier [0x00007FF6993EBA13+3586963]
+	GetHandleVerifier [0x00007FF6993E144D+3544525]
+	GetHandleVerifier [0x00007FF69914C9AA+838442]
+	(No symbol) [0x00007FF698FFD01F]
+	(No symbol) [0x00007FF698FF95E4]
+	(No symbol) [0x00007FF698FF9786]
+	(No symbol) [0x00007FF698FE8CB9]
+	BaseThreadInitThunk [0x00007FFEBB7CDBE7+23]
+	RtlUserThreadStart [0x00007FFEBBB25A4C+44]
+ // url=https://m.entertain.naver.com/article/003/0013080603
+2025-02-24 03:32:27,667 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/022/0004013013?sid=100
+2025-02-24 03:32:32,251 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/088/0000932237?sid=110
+2025-02-24 03:33:02,761 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/015/0005097198?sid=100
+2025-02-24 03:33:47,254 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008090712?sid=102
+2025-02-24 03:33:51,803 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008090707?sid=102
+2025-02-24 03:33:56,664 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013081610?sid=102
+2025-02-24 03:34:01,409 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013080714?sid=100
+2025-02-24 03:34:06,148 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352418?sid=102
+2025-02-24 03:35:32,614 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/002/0002374294?sid=100
+2025-02-24 03:35:53,697 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463416?sid=102
+2025-02-24 03:36:03,714 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463435?sid=100
+2025-02-24 03:36:33,962 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463353?sid=102
+2025-02-24 03:36:47,353 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015225708?sid=100
+2025-02-24 03:36:52,033 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/014/0005311608?sid=102
+2025-02-24 03:37:05,590 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013080565?sid=102
+2025-02-24 03:37:28,053 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/008/0005156542?sid=100
+2025-02-24 03:37:39,706 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/607/0000002482?sid=102
+2025-02-24 03:37:58,359 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/022/0004012964?sid=100
+2025-02-24 03:38:28,098 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013081605?sid=102
+2025-02-24 03:39:39,706 - INFO - 키워드 검색 크롤링 시작 - 키워드: 윤석열, 요청 개수: 50, 정렬 기준: 0, 전체 기간 검색: ('2025.02.20', '2025.02.20')
+2025-02-24 03:39:46,786 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732211?sid=102
+2025-02-24 03:40:59,015 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/448/0000509342?sid=102
+2025-02-24 03:42:07,161 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732080?sid=102
+2025-02-24 03:43:47,191 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463343?sid=102
+2025-02-24 03:44:33,159 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/014/0005311452?sid=102
+2025-02-24 03:44:56,640 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/123/0002353394?sid=100
+2025-02-24 03:45:20,887 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/022/0004012761?sid=102
+2025-02-24 03:45:34,426 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732215?sid=102
+2025-02-24 03:46:08,238 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352392?sid=100
+2025-02-24 03:46:43,896 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/079/0003994500?sid=102
+2025-02-24 03:48:29,511 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013078285?sid=102
+2025-02-24 03:48:40,289 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463348?sid=100
+2025-02-24 03:49:02,201 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352392?sid=100
+2025-02-24 03:49:37,131 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732217?sid=102
+2025-02-24 03:49:59,708 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015224620?sid=100
+2025-02-24 03:50:10,565 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/123/0002353394?sid=100
+2025-02-24 03:50:27,112 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015223469?sid=102
+2025-02-24 03:51:26,182 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/022/0004012761?sid=102
+2025-02-24 03:51:43,058 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/310/0000123161?sid=102
+2025-02-24 03:51:54,109 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013078597?sid=102
+2025-02-24 03:52:15,977 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352234?sid=102
+2025-02-24 03:54:07,514 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463346?sid=102
+2025-02-24 03:54:44,966 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/056/0011896540?sid=100
+2025-02-24 03:54:55,846 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015223347?sid=100
+2025-02-24 03:55:00,517 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/018/0005947784?sid=100
+2025-02-24 03:55:05,060 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/654/0000107072?sid=102
+2025-02-24 03:56:11,150 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732087?sid=102
+2025-02-24 03:57:08,268 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013079591?sid=102
+2025-02-24 03:57:12,923 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015223755?sid=102
+2025-02-24 03:57:17,482 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463344?sid=102
+2025-02-24 03:57:46,589 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013079586?sid=102
+2025-02-24 03:57:51,275 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732213?sid=102
+2025-02-24 03:58:14,329 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015223761?sid=102
+2025-02-24 03:58:18,874 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008089034?sid=100
+2025-02-24 03:58:35,636 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013079290?sid=102
+2025-02-24 03:58:40,240 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463223?sid=102
+2025-02-24 03:58:51,288 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015224433?sid=100
+2025-02-24 03:59:01,203 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463218?sid=100
+2025-02-24 03:59:14,463 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013079585?sid=102
+2025-02-24 03:59:39,574 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463314?sid=102
+2025-02-24 03:59:44,257 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013077993?sid=102
+2025-02-24 03:59:48,824 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013077857?sid=102
+2025-02-24 03:59:53,534 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/654/0000107044?sid=102
+2025-02-24 04:00:06,460 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013079296?sid=102
+2025-02-24 04:00:11,234 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463336?sid=102
+2025-02-24 04:00:56,020 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463308?sid=102
+2025-02-24 04:01:06,042 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013079367?sid=102
+2025-02-24 04:01:10,632 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/654/0000107079?sid=102
+2025-02-24 04:01:21,317 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/018/0005947816?sid=100
+2025-02-24 04:02:18,363 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013079309?sid=102
+2025-02-24 10:18:05,281 - INFO - 키워드 검색 크롤링 시작 - 키워드: 윤석열, 요청 개수: 50, 정렬 기준: 0, 전체 기간 검색: ('2025.02.19', '2025.02.19')
+2025-02-24 10:18:13,060 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732003?sid=100
+2025-02-24 10:19:21,093 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352008?sid=102
+2025-02-24 10:19:36,283 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463191?sid=102
+2025-02-24 10:19:56,907 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/214/0001406349?sid=102
+2025-02-24 10:20:42,413 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/654/0000106842?sid=102
+2025-02-24 10:20:53,764 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/009/0005446596?sid=100
+2025-02-24 10:21:23,266 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013077352?sid=102
+2025-02-24 10:21:43,269 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/018/0005947322?sid=100
+2025-02-24 10:23:02,865 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/214/0001406350?sid=102
+2025-02-24 10:25:05,809 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731958?sid=110
+2025-02-24 10:25:44,810 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/018/0005947322?sid=100
+2025-02-24 10:27:07,988 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731852?sid=100
+2025-02-24 10:27:40,170 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003351909?sid=102
+2025-02-24 10:29:14,109 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731915?sid=100
+2025-02-24 10:29:30,631 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352047?sid=102
+2025-02-24 10:29:53,830 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463076?sid=100
+2025-02-24 10:30:10,622 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731973?sid=102
+2025-02-24 10:33:10,329 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352026?sid=102
+2025-02-24 10:33:49,161 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731860?sid=102
+2025-02-24 10:36:42,957 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463116?sid=102
+2025-02-24 10:38:22,508 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008085082?sid=102
+2025-02-24 10:38:32,583 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731853?sid=110
+2025-02-24 10:38:49,944 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463077?sid=102
+2025-02-24 10:39:31,994 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013077409?sid=102
+2025-02-24 10:39:36,726 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/002/0002373896?sid=100
+2025-02-24 10:40:04,917 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002732000?sid=102
+2025-02-24 10:40:17,817 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008085785?sid=102
+2025-02-24 10:40:22,469 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015222949?sid=100
+2025-02-24 10:40:27,017 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/308/0000036210?sid=100
+2025-02-24 10:40:46,666 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003351961?sid=102
+2025-02-24 10:41:13,450 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008085104?sid=102
+2025-02-24 10:41:18,355 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463122?sid=102
+2025-02-24 10:41:23,393 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/002/0002373784?sid=100
+2025-02-24 10:42:17,618 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013076500?sid=100
+2025-02-24 10:42:23,203 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/214/0001406359?sid=102
+2025-02-24 10:42:33,162 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/006/0000128633?sid=102
+2025-02-24 10:43:00,651 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/421/0008084859?sid=102
+2025-02-24 10:43:05,237 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/056/0011896053?sid=121
+2025-02-24 10:43:28,559 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015222735?sid=102
+2025-02-24 10:46:53,506 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003351981?sid=102
+2025-02-24 10:47:06,273 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/006/0000128628?sid=104
+2025-02-24 10:47:34,753 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013077161?sid=100
+2025-02-24 10:47:39,340 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/308/0000036211?sid=100
+2025-02-24 10:48:01,972 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003351915?sid=102
+2025-02-24 10:48:22,207 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/469/0000849833?sid=104
+2025-02-24 10:48:33,281 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013076606?sid=100
+2025-02-24 10:48:43,313 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003351926?sid=102
+2025-02-24 10:48:54,179 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/008/0005155627?sid=100
+2025-02-24 10:49:39,840 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003352064?sid=100
+2025-02-24 10:49:48,621 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/654/0000106821?sid=100
+2025-02-24 13:24:13,111 - INFO - 키워드 검색 크롤링 시작 - 키워드: 윤석열, 요청 개수: 50, 정렬 기준: 0, 전체 기간 검색: ('2025.02.18', '2025.02.18')
+2025-02-24 13:24:20,570 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463014?sid=102
+2025-02-24 13:25:31,015 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731822?sid=102
+2025-02-24 13:28:44,317 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003351712?sid=102
+2025-02-24 13:30:35,000 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/654/0000106634?sid=102
+2025-02-24 13:32:29,519 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731681?sid=100
+2025-02-24 13:59:49,438 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/654/0000106618?sid=102
+2025-02-24 14:00:18,031 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/437/0000430477?sid=102
+2025-02-24 14:01:45,943 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731737?sid=102
+2025-02-24 14:02:53,672 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015219788?sid=102
+2025-02-24 14:03:05,455 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013073948?sid=102
+2025-02-24 14:04:06,883 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731646?sid=102
+2025-02-24 14:04:34,687 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/629/0000365668?sid=100
+2025-02-24 14:04:45,424 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463067?sid=102
+2025-02-24 14:05:16,481 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/214/0001406280?sid=100
+2025-02-24 14:05:57,285 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731737?sid=102
+2025-02-24 14:07:07,079 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731678?sid=104
+2025-02-24 14:07:25,865 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/055/0001232660?sid=100
+2025-02-24 14:07:36,750 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013073802?sid=102
+2025-02-24 14:07:50,429 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731818?sid=102
+2025-02-24 14:08:52,531 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002462929?sid=100
+2025-02-24 14:09:13,288 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002462929?sid=100
+2025-02-24 14:09:41,309 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731789?sid=102
+2025-02-24 14:10:32,964 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002463046?sid=100
+2025-02-24 14:10:45,448 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003351620?sid=102
+2025-02-24 14:11:14,779 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003351761?sid=102
+2025-02-24 14:14:43,341 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002462927?sid=104
+2025-02-24 14:15:03,731 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015220779?sid=102
+2025-02-24 14:15:18,739 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013073324?sid=100
+2025-02-24 14:15:29,770 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/310/0000123104?sid=102
+2025-02-24 14:15:42,412 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/214/0001406264?sid=100
+2025-02-24 14:16:11,877 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002462999?sid=100
+2025-02-24 14:16:28,415 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003351759?sid=110
+2025-02-24 14:16:39,197 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013074008?sid=102
+2025-02-24 14:16:54,183 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015220077?sid=100
+2025-02-24 14:16:58,662 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015219688?sid=102
+2025-02-24 14:17:19,512 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015219673?sid=100
+2025-02-24 14:17:24,182 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015219682?sid=100
+2025-02-24 14:17:28,664 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003351710?sid=100
+2025-02-24 14:17:39,840 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002462932?sid=102
+2025-02-24 14:17:51,798 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015220147?sid=100
+2025-02-24 14:17:56,449 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013074278?sid=102
+2025-02-24 14:18:25,654 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/032/0003351676?sid=102
+2025-02-24 14:18:39,609 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015219777?sid=102
+2025-02-24 14:18:44,327 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/001/0015219602?sid=100
+2025-02-24 14:18:48,932 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/003/0013074215?sid=102
+2025-02-24 14:18:53,546 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/047/0002462939?sid=102
+2025-02-24 14:19:34,636 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/057/0001872393?sid=102
+2025-02-24 14:20:00,738 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/018/0005946146?sid=102
+2025-02-24 14:20:05,360 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731774?sid=102
+2025-02-24 14:20:28,556 - INFO - 기사 크롤링: https://n.news.naver.com/mnews/article/028/0002731759?sid=102
