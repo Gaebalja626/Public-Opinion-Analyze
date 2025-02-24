@@ -101,7 +101,7 @@ class NaverNewsCrawler:
         self.driver.get(url)
         self.driver.implicitly_wait(wait_time)
 
-        self.comment_count = int(self.driver.find_element(By.CLASS_NAME, 'u_cbox_count').text)
+        self.comment_count = int(self.driver.find_element(By.CLASS_NAME, 'u_cbox_count').text.replace(',', ''))
         if not self.comment_count: return None
 
         # 더보기 버튼 클릭

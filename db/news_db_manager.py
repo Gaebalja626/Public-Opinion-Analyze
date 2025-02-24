@@ -32,12 +32,12 @@ class NewsDBManager:
             """)
 
             # 댓글 테이블 생성
-            # TODO comment_id
+            # TODO nickname이라 적힌 부분 comment_id로 수정 (이미 이렇게 수집한 데이터들 데이터분석 끝내고)
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS comments (
                     comment_id INTEGER PRIMARY KEY AUTOINCREMENT, 
                     article_id TEXT NOT NULL,
-                    nickname TEXT,
+                    nickname TEXT, 
                     datetime TEXT,
                     content TEXT,
                     recommends INTEGER,

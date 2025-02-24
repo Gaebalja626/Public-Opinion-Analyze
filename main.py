@@ -102,7 +102,7 @@ class NaverNewsCrawlerProgram:
             news_crawler = NaverNewsCrawler(url)
             return news_crawler.crawl()
         except Exception as e:
-            logging.error(f"크롤링 중 오류 발생: {str(e)}")
+            logging.error(f"크롤링 중 오류 발생: {str(e)} // url={url}")
             print(f"크롤링 중 오류가 발생했습니다: {str(e)}")
             return [], []
 
@@ -141,7 +141,7 @@ class NaverNewsCrawlerProgram:
                 print("올바른 문자를 입력해주세요.")
         while True:
             if date_option == 'n':
-                print("\n날짜 형식은 YYYY.MM.DD 입니다. (예: 2024.02.25)")
+                print("\n날짜 형식은 YYYY.MM.DD 입니다.")
                 while True:
                     start_date = input("시작 날짜를 입력해주세요: ")
                     if not self._validate_date_format(start_date):
@@ -170,7 +170,7 @@ class NaverNewsCrawlerProgram:
                 break
 
 
-        logging.info(f"키워드 검색 크롤링 시작 - 키워드: {keyword}, 요청 개수: {number}, 정렬 기준: {sort_by}, 전체 기간 검색: {date_option}")
+        logging.info(f"키워드 검색 크롤링 시작 - 키워드: {keyword}, 요청 개수: {number}, 정렬 기준: {sort_by}, 전체 기간 검색: {date_range}")
 
         results = []
         try:
@@ -186,7 +186,7 @@ class NaverNewsCrawlerProgram:
                     article_data, comment_data = news_crawler.crawl()
                     results.append((article_data, comment_data))
                 except Exception as e:
-                    logging.error(f"개별 기사 크롤링 중 오류: {str(e)}")
+                    logging.error(f"개별 기사 크롤링 중 오류: {str(e)} // url={news_url}")
                     print(f"이 기사 크롤링 중 오류가 발생했습니다: {str(e)}")
                     results.append(([], []))
 
