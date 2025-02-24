@@ -13,7 +13,8 @@ MILVUS_CONFIG = {
         "comment": 512,
         "user": 512,
         "journal": 512,
-        "journalist": 512
+        "journalist": 512,
+        "reduced": 2
     }
 }
 
@@ -39,7 +40,8 @@ try:
     # Article 컬렉션
     article_fields = [
         FieldSchema(name="article_id", dtype=DataType.VARCHAR, max_length=100, is_primary=True),
-        FieldSchema(name="article_vector", dtype=DataType.FLOAT_VECTOR, dim=MILVUS_CONFIG["vector_dims"]["article"])
+        FieldSchema(name="article_vector", dtype=DataType.FLOAT_VECTOR, dim=MILVUS_CONFIG["vector_dims"]["article"]),
+        FieldSchema(name="article_reduced_vector", dtype=DataType.FLOAT_VECTOR, dim=MILVUS_CONFIG["vector_dims"]["reduced"])
     ]
     article_schema = CollectionSchema(fields=article_fields, description="Article content embeddings")
     article_collection = create_collection("Article_Embeddings", article_schema)
@@ -48,7 +50,8 @@ try:
     # Comment 컬렉션
     comment_fields = [
         FieldSchema(name="comment_id", dtype=DataType.VARCHAR, max_length=100, is_primary=True),
-        FieldSchema(name="comment_vector", dtype=DataType.FLOAT_VECTOR, dim=MILVUS_CONFIG["vector_dims"]["comment"])
+        FieldSchema(name="comment_vector", dtype=DataType.FLOAT_VECTOR, dim=MILVUS_CONFIG["vector_dims"]["comment"]),
+        FieldSchema(name="comment_reduced_vector", dtype=DataType.FLOAT_VECTOR, dim=MILVUS_CONFIG["vector_dims"]["reduced"])
     ]
     comment_schema = CollectionSchema(fields=comment_fields, description="Comment embeddings")
     comment_collection = create_collection("Comment_Embeddings", comment_schema)
@@ -57,7 +60,8 @@ try:
     # User 컬렉션
     user_fields = [
         FieldSchema(name="user_id", dtype=DataType.VARCHAR, max_length=100, is_primary=True),
-        FieldSchema(name="user_tendency_vector", dtype=DataType.FLOAT_VECTOR, dim=MILVUS_CONFIG["vector_dims"]["user"])
+        FieldSchema(name="user_tendency_vector", dtype=DataType.FLOAT_VECTOR, dim=MILVUS_CONFIG["vector_dims"]["user"]),
+        FieldSchema(name="user_reduced_vector", dtype=DataType.FLOAT_VECTOR, dim=MILVUS_CONFIG["vector_dims"]["reduced"])
     ]
     user_schema = CollectionSchema(fields=user_fields, description="User embeddings")
     user_collection = create_collection("User_Embeddings", user_schema)
@@ -67,7 +71,8 @@ try:
     journal_fields = [
         FieldSchema(name="journal_id", dtype=DataType.VARCHAR, max_length=100, is_primary=True),
         FieldSchema(name="journal_tendency_vector", dtype=DataType.FLOAT_VECTOR,
-                    dim=MILVUS_CONFIG["vector_dims"]["journal"])
+                    dim=MILVUS_CONFIG["vector_dims"]["journal"]),
+        FieldSchema(name="journal_reduced_vector", dtype=DataType.FLOAT_VECTOR, dim=MILVUS_CONFIG["vector_dims"]["reduced"])
     ]
     journal_schema = CollectionSchema(fields=journal_fields, description="Journal embeddings")
     journal_collection = create_collection("Journal_Embeddings", journal_schema)
@@ -77,7 +82,8 @@ try:
     journalist_fields = [
         FieldSchema(name="journalist_id", dtype=DataType.VARCHAR, max_length=100, is_primary=True),
         FieldSchema(name="journalist_tendency_vector", dtype=DataType.FLOAT_VECTOR,
-                    dim=MILVUS_CONFIG["vector_dims"]["journalist"])
+                    dim=MILVUS_CONFIG["vector_dims"]["journalist"]),
+        FieldSchema(name="journalist_reduced_vector", dtype=DataType.FLOAT_VECTOR, dim=MILVUS_CONFIG["vector_dims"]["reduced"])
     ]
     journalist_schema = CollectionSchema(fields=journalist_fields, description="Journalist embeddings")
     journalist_collection = create_collection("Journalist_Embeddings", journalist_schema)
