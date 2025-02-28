@@ -72,6 +72,13 @@ class NaverNewsCrawlerProgram:
     def _get_menu_choice(self) -> Optional[int]:
         """
         메뉴 선택 받기
+
+        크롤링 방법을 선택해주세요:
+
+        1) 네이버 뉴스 URL로 크롤링
+        2) 키워드 검색으로 크롤링
+        3) 종료
+
         Returns:
             선택된 메뉴 번호 또는 None
         """
