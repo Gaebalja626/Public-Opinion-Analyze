@@ -299,7 +299,6 @@ class NaverNewsCrawlerProgram:
             logging.error(f"데이터 저장 중 오류 발생: {str(e)}")
             print(f"데이터 저장 중 오류가 발생했습니다: {str(e)}")
             return False
-
     def _print_preview(self, article_data: list, comment_data: list):
         """크롤링 결과 출력 및 저장"""
         if article_data:
@@ -327,6 +326,7 @@ class NaverNewsCrawlerProgram:
         #     print("\n데이터베이스 저장이 완료되었습니다.")
         # else:
         #     print("\n데이터베이스 저장 중 오류가 발생했습니다.")
+
 
     def run(self):
         """프로그램 실행"""
